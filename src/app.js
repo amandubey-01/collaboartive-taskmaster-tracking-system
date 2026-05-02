@@ -6,6 +6,7 @@ const { errorHandler } = require('./middleware/errorHandler')
 const authRoutes = require('./routes/auth')
 const taskRoutes = require('./routes/tasks')
 const teamRoutes = require('./routes/teams') 
+const commentRoutes = require('./routes/comments')
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.get('/health', (req,res) => {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/tasks', taskRoutes)
+app.use('/api/tasks/:taskId', commentRoutes) 
 app.use('/api/teams', teamRoutes)             
 
 app.use(errorHandler)

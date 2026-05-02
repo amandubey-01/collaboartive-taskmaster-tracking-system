@@ -74,6 +74,21 @@ function initializeDatabase() {
       created_at TEXT DEFAULT (datetime('now')),
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     );
+
+    CREATE TABLE IF NOT EXISTS attachments (
+      id            TEXT PRIMARY KEY,
+      task_id       TEXT NOT NULL,
+      user_id       TEXT NOT NULL,
+      filename      TEXT NOT NULL,
+      original_name TEXT NOT NULL,
+      mime_type     TEXT,
+      size          INTEGER,
+      created_at    TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    
   `)
 
   console.log('✅ Database initialised')
