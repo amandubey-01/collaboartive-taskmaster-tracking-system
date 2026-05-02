@@ -41,7 +41,7 @@ function initializeDatabase() {
       description TEXT,
       owner_id    TEXT NOT NULL,
       created_at  TEXT DEFAULT (datetime('now')),
-      FOREIGN KEY (owner_id) REFERENCES teams(id) ON DELETE CASCADE
+      FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
     );
 
     CREATE TABLE IF NOT EXISTS team_members (

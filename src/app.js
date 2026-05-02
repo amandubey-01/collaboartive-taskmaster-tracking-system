@@ -5,6 +5,7 @@ const {initializeDatabase} = require('./config/database')
 const { errorHandler } = require('./middleware/errorHandler')
 const authRoutes = require('./routes/auth')
 const taskRoutes = require('./routes/tasks')
+const teamRoutes = require('./routes/teams') 
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.get('/health', (req,res) => {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/tasks', taskRoutes)
+app.use('/api/teams', teamRoutes)             
 
 app.use(errorHandler)
 
