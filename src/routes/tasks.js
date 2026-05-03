@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid')
 const { db } = require('../config/database')
 const { authenticate } = require('../middleware/auth')
 const { validate } = require('../middleware/errorHandler')
+const { notifyUser } = require('../config/sse') 
 
 const router = express.Router()
 router.use(authenticate)
@@ -61,6 +62,12 @@ router.post('/',
         assigned_to || null,
         team_id || null
       )
+
+      // Notify assignee
+      if (assigned_to && assigned_to !== req.user.id) {
+        notifyUser(assigned_to, 'task_assigned', `You have been assigned: "${title}"`, id)
+      }
+
 
       const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(id)
       res.status(201).json({ message: 'Task created', task: enrichTask(task) })
@@ -182,6 +189,11 @@ router.put('/:taskId',
         assigned_to || null,
         task.id
       )
+
+      // Notify assignee if changed
+      if (assigned_to && assigned_to !== req.user.id) {
+        notifyUser(assigned_to, 'task_updated', `Task updated: "${title}"`, task.id)
+      }
 
       const updated = db.prepare('SELECT * FROM tasks WHERE id = ?').get(task.id)
       res.json({ message: 'Task updated', task: enrichTask(updated) })
