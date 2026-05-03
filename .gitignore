@@ -1,1 +1,9 @@
+cat > .gitignore << EOF
+node_modules/
 .env
+taskmaster.db
+taskmaster.db-shm
+taskmaster.db-wal
+src/uploads/*
+!src/uploads/.gitkeep
+EOF
